@@ -29,7 +29,48 @@ int main(int argc, char *argv[])
     {
       if (current_argument.at(j++) == '-')
       {
-        if (current_argument.at(j) == 'h')
+        if (current_argument.at(j++) == '-')
+        {
+          if (current_argument.substr(j) == "single-file")
+          {
+            creation_info.type = Boiler::Creation::Type::File;
+            // TODO: Implement check for overwriting creation
+            if (i == arguments.size() - 1)
+            {
+              std::cerr << "Expected path." << std::endl;
+              return 1;
+            }
+            else
+              creation_info.path = arguments.at(++i);
+          }
+
+          else if (current_argument.substr(j) == "lang")
+          {
+            creation_info.language = arguments.at(i);
+            if (i == arguments.size() - 1)
+            {
+              std::cerr << "Expected language." << std::endl;
+              return 1;
+            }
+            else
+            {
+              creation_info.language = arguments.at(++i);
+            }
+          }
+          else if (current_argument.substr(j) == "project")
+          {
+            creation_info.type = Boiler::Creation::Type::Project;
+            // TODO: Implement check for overwriting creation
+            if (i == arguments.size() - 1)
+            {
+              std::cerr << "Expected path." << std::endl;
+              return 1;
+            }
+            else
+              creation_info.path = arguments.at(++i);
+          }
+        }
+        else if (current_argument.at(j) == 'h')
         {
           Boiler::display_help_message();
         }
