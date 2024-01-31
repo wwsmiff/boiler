@@ -85,24 +85,26 @@ void create(const Boiler::Creation::Info &info)
       std::cout << "Path exists." << std::endl;
     else
     {
-
-      std::stringstream path_stream{};
-      std::filesystem::create_directory(info.path);
-      path_stream << info.path.c_str() << "/src";
-      std::filesystem::create_directory(path_stream.str());
-      path_stream.str(std::string{});
-      path_stream << info.path.c_str() << "/include";
-      std::filesystem::create_directory(path_stream.str());
-      path_stream.str(std::string{});
-      if (info.language == "c")
+      if (info.language == "c" || info.language == "cpp")
       {
-        path_stream << info.path.c_str() << "/src/main.c";
-        create_file(path_stream.str(), "c");
-      }
-      if (info.language == "cpp")
-      {
-        path_stream << info.path.c_str() << "/src/main.cpp";
-        create_file(path_stream.str(), "cpp");
+        std::stringstream path_stream{};
+        std::filesystem::create_directory(info.path);
+        path_stream << info.path.c_str() << "/src";
+        std::filesystem::create_directory(path_stream.str());
+        path_stream.str(std::string{});
+        path_stream << info.path.c_str() << "/include";
+        std::filesystem::create_directory(path_stream.str());
+        path_stream.str(std::string{});
+        if (info.language == "c")
+        {
+          path_stream << info.path.c_str() << "/src/main.c";
+          create_file(path_stream.str(), "c");
+        }
+        if (info.language == "cpp")
+        {
+          path_stream << info.path.c_str() << "/src/main.cpp";
+          create_file(path_stream.str(), "cpp");
+        }
       }
     }
   }
