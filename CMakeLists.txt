@@ -6,8 +6,6 @@ set(USER_HOME $ENV{HOME})
 add_executable(${PROJECT_NAME})
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-install(TARGETS boiler DESTINATION "${USER_HOME}/.boiler/bin")
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/boilerplates" DESTINATION "${USER_HOME}/.boiler")
 target_sources(${PROJECT_NAME} PRIVATE 
  src/main.cpp
  src/boiler.cpp
