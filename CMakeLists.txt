@@ -10,3 +10,6 @@ target_sources(${PROJECT_NAME} PRIVATE
  src/main.cpp
  src/boiler.cpp
 )
+
+install(TARGETS boiler DESTINATION "${USER_HOME}/.boiler/bin")
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/boilerplates" DESTINATION "${USER_HOME}/.boiler")
