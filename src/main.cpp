@@ -29,9 +29,14 @@ int main(int argc, char *argv[])
     {
       if (current_argument.at(j++) == '-')
       {
-        if (current_argument.at(j++) == '-')
+        if (current_argument.at(j) == '-')
         {
-          if (current_argument.substr(j) == "single-file")
+          j++;
+          if (current_argument.substr(j) == "help")
+          {
+            Boiler::display_help_message();
+          }
+          else if (current_argument.substr(j) == "single-file")
           {
             creation_info.type = Boiler::Creation::Type::File;
             // TODO: Implement check for overwriting creation
