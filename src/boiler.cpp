@@ -33,27 +33,6 @@ void create_file(const std::filesystem::path &path, std::string_view language)
   }
 }
 
-void create_project(const std::filesystem::path &path,
-                    std::string_view language)
-{
-  if (std::filesystem::exists(path))
-    std::cout << "Path exists." << std::endl;
-  else
-  {
-
-    std::stringstream path_stream{};
-    std::filesystem::create_directory(path);
-    path_stream << path.c_str() << "/src";
-    std::filesystem::create_directory(path_stream.str());
-    path_stream.str(std::string{});
-    path_stream << path.c_str() << "/include";
-    std::filesystem::create_directory(path_stream.str());
-    path_stream.str(std::string{});
-    path_stream << path.c_str() << "/src/main.cpp";
-    create_file(path_stream.str(), "cpp");
-  }
-}
-
 void create(const Boiler::Creation::Info &info)
 {
   if (info.type == Boiler::Creation::Type::File)
@@ -104,6 +83,16 @@ void create(const Boiler::Creation::Info &info)
         {
           path_stream << info.path.c_str() << "/src/main.cpp";
           create_file(path_stream.str(), "cpp");
+          path_stream.str(std::string{});
+          path_stream << config.boilerplates_directory << info.language
+                      << "/CMakeLists.txt";
+          std::ifstream cmake_in(path_stream.str());
+          path_stream.str(std::string{});
+          path_stream << info.path.c_str() << "/CMakeLists.txt";
+          std::ofstream cmake_out(path_stream.str());
+          cmake_out << cmake_in.rdbuf();
+          cmake_in.close();
+          cmake_out.close();
         }
       }
     }

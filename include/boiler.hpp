@@ -53,10 +53,6 @@ constexpr std::string_view help_message_v{
 void display_help_message();
 
 void create_file(const std::filesystem::path &path, std::string_view language);
-[[deprecated(
-    "Use Boiler::create(const Boiler::Creation::Info &info) instead")]] void
-create_project(const std::filesystem::path &path, std::string_view language);
-
 void create(const Boiler::Creation::Info &info);
 
 }; // namespace Boiler
