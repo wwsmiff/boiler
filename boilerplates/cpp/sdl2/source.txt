@@ -1,0 +1,40 @@
+#include <SDL2/SDL.h>
+#include <functional>
+#include <iostream>
+#include <memory>
+
+constexpr std::string_view window_title{"window"};
+constexpr int32_t window_width_v{1280};
+constexpr int32_t window_height_v{720};
+
+int main(int argc, char *argv[])
+{
+  SDL_Init(SDL_INIT_VIDEO);
+  std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> window{
+      SDL_CreateWindow(std::string{window_title}.c_str(),
+                       SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                       window_width_v, window_height_v, SDL_WINDOW_SHOWN),
+      SDL_DestroyWindow};
+
+  std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> renderer{
+      SDL_CreateRenderer(window.get(), -1,
+                         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC),
+      SDL_DestroyRenderer};
+
+  bool running{true};
+  SDL_Event event{};
+
+  while (running)
+  {
+    while (SDL_PollEvent(&event))
+      if (event.type == SDL_QUIT)
+        running = false;
+
+    SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
+    SDL_RenderClear(renderer.get());
+
+    SDL_RenderPresent(renderer.get());
+  }
+
+  return EXIT_SUCCESS;
+}

@@ -129,6 +129,17 @@ int main(int argc, char *argv[])
             creation_info.language = arguments.at(++i);
           }
         }
+
+        else if (current_argument.at(j) == 'f')
+        {
+          if (i == arguments.size() - 1)
+          {
+            std::cerr << "Expected framework." << std::endl;
+            return 1;
+          }
+          else
+            creation_info.framework = arguments.at(++i);
+        }
       }
     }
   }
